@@ -1,0 +1,5 @@
+cd C:\MAMP\bin\mysql\bin
+
+mysql -uroot -proot
+
+use sqlix

@@ -1,0 +1,177 @@
+1/ SELECT * FROM potion;
+
+2/SELECT nom_categ, nb_point 
+FROM categorie 
+WHERE nb_point LIKE 3;
+
+3/SELECT nom_village, nb_huttes 
+FROM village 
+WHERE nb_huttes > 35
+
+4/SELECT num_trophee, date_prise 
+FROM trophee 
+WHERE month(date_prise) BETWEEN 5 AND 7
+
+5/SELECT nom
+FROM habitant
+WHERE nom LIKE "a%" AND nom LIKE "%r%"
+
+6/SELECT num_hab, num_potion 
+FROM absorber
+WHERE num_potion = 1 OR num_potion = 3 OR num_potion= 4
+
+7/SELECT num_trophee, date_prise, code_cat, num_preneur
+FROM trophee
+
+8/SELECT nom, vill.nom_village
+FROM habitant AS hab
+INNER JOIN village AS vill
+ON hab.num_village = vill.num_village
+WHERE vill.nom_village LIKE "Aquilona"
+
+9/SELECT habitant.nom, categorie.nom_categ
+FROM trophee
+INNER JOIN habitant
+ON trophee.num_preneur = habitant.num_hab
+INNER JOIN categorie
+ON trophee.code_cat = categorie.code_cat
+WHERE categorie.nom_categ LIKE "%legat"
+
+10/SELECT habitant.nom, potion.*
+FROM fabriquer
+INNER JOIN habitant
+ON fabriquer.num_hab = habitant.num_hab
+INNER JOIN potion
+ON fabriquer.num_potion = potion.num_potion
+WHERE habitant.nom LIKE "panoramix"
+
+11/SELECT potion.lib_potion, habitant.nom
+FROM absorber
+INNER JOIN potion
+ON absorber.num_potion = potion.num_potion
+INNER JOIN habitant
+ON absorber.num_hab = habitant.num_hab
+WHERE habitant.nom LIKE "homeopatix"
+
+12/SELECT habitant.nom, fabriquer.*
+FROM absorber
+INNER JOIN habitant
+ON absorber.num_hab = habitant.num_hab
+INNER JOIN fabriquer
+ON absorber.num_potion = fabriquer.num_potion
+WHERE fabriquer.num_hab LIKE 3
+
+13/SELECT DISTINCT habitant.nom, fabriquer.*, potion.lib_potion
+FROM absorber
+INNER JOIN habitant
+ON absorber.num_hab = habitant.num_hab
+INNER JOIN potion
+ON absorber.num_potion = potion.num_potion
+INNER JOIN fabriquer
+ON absorber.num_potion = fabriquer.num_potion
+WHERE fabriquer.num_hab LIKE 3
+
+14/SELECT nom
+FROM habitant
+WHERE num_qualite IS NULL
+
+15/SELECT habitant.nom, potion.lib_potion, date_a
+FROM absorber
+INNER JOIN habitant
+ON absorber.num_hab = habitant.num_hab
+INNER JOIN potion
+ON absorber.num_potion = potion.num_potion
+WHERE (potion.lib_potion LIKE "Potion magique n°1") AND (month(date_a) = 2)
+
+16/SELECT nom, age
+FROM habitant
+ORDER BY nom
+
+17/SELECT nom_resserre, village.nom_village, superficie
+FROM resserre
+INNER JOIN village
+ON resserre.num_village = village.num_village
+ORDER BY superficie DESC
+
+18/SELECT COUNT(num_hab), num_village
+FROM habitant
+WHERE num_village = 5
+
+19/SELECT habitant.nom, SUM(categorie.nb_point)
+FROM trophee
+INNER JOIN habitant
+ON trophee.num_preneur = habitant.num_hab
+INNER JOIN categorie
+ON trophee.code_cat = categorie.code_cat
+WHERE habitant.nom LIKE "Goudurix"
+GROUP BY habitant.nom
+
+20/SELECT date_prise
+FROM trophee
+ORDER BY date_prise ASC
+LIMIT 1
+
+21/SELECT potion.lib_potion, SUM(quantite)
+FROM absorber
+INNER JOIN potion
+ON absorber.num_potion = potion.num_potion
+WHERE potion.lib_potion = "Potion magique n°2"
+
+22/SELECT superficie
+FROM resserre
+ORDER BY superficie DESC
+LIMIT 1
+
+23/SELECT COUNT(num_hab), village.nom_village
+FROM habitant
+INNER JOIN village
+ON habitant.num_village = village.num_village
+GROUP BY village.nom_village
+ORDER BY village.nom_village
+
+24/SELECT COUNT(num_trophee), habitant.nom
+FROM trophee
+INNER JOIN habitant
+ON trophee.num_preneur = habitant.num_hab
+GROUP BY habitant.nom
+
+25/SELECT province.nom_province, AVG(age)
+FROM habitant
+INNER JOIN village
+ON habitant.num_village = village.num_village
+INNER JOIN province
+ON village.num_province = province.num_province
+GROUP BY province.nom_province
+
+26/SELECT habitant.nom, SUM(quantite)
+FROM absorber
+INNER JOIN habitant
+ON absorber.num_hab = habitant.num_hab
+GROUP BY habitant.nom
+
+27/SELECT habitant.nom, potion.lib_potion, quantite
+FROM absorber
+INNER JOIN habitant
+ON absorber.num_hab = habitant.num_hab
+INNER JOIN potion
+ON absorber.num_potion = potion.num_potion
+WHERE (potion.lib_potion = "Potion Zen") AND (quantite > 2)
+
+28/SELECT village.nom_village
+FROM resserre
+INNER JOIN village
+ON resserre.num_village = village.num_village
+GROUP BY village.nom_village
+
+29/SELECT nom_village, nb_huttes
+FROM village
+ORDER BY nb_huttes DESC
+LIMIT 1
+
+30/SELECT habitant.nom, COUNT(num_trophee) AS nb_trophee
+FROM trophee
+INNER JOIN habitant
+ON trophee.num_preneur = habitant.num_hab
+GROUP BY habitant.nom
+HAVING nb_trophee > 1
+ORDER BY nb_trophee DESC

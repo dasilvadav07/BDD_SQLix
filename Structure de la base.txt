@@ -1,0 +1,96 @@
+CREATE DATABASE sqlix;
+USE sqlix;
+
+CREATE TABLE qualite
+(
+    num_qualite INT PRIMARY KEY AUTO_INCREMENT,
+    lib_qualite VARCHAR(30)
+) ENGINE=InnoDb;
+
+CREATE TABLE province
+(
+    num_province INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    nom_province VARCHAR(30),
+    nom_gouverneur VARCHAR(30)
+) ENGINE=InnoDb;
+
+CREATE TABLE village
+(
+    num_village INT PRIMARY KEY AUTO_INCREMENT,
+    nom_village VARCHAR(30),
+    nb_huttes INT,
+    num_province INT
+) ENGINE=InnoDb;
+
+ALTER TABLE `village` ADD CONSTRAINT `village_fk0` FOREIGN KEY (`num_province`) REFERENCES `province`(`num_province`);
+
+CREATE TABLE habitant
+(
+    num_hab INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    nom VARCHAR(30),
+    age INT,
+    num_village INT,
+    num_qualite INT,
+    FOREIGN KEY(num_village) REFERENCES village(num_village),
+    FOREIGN KEY(num_qualite) REFERENCES qualite(num_qualite)
+) ENGINE=InnoDb;
+
+CREATE TABLE resserre
+(
+    num_resserre INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    nom_resserre VARCHAR(30),
+    superficie INT,
+    num_village INT,
+    FOREIGN KEY(num_village) REFERENCES village(num_village)
+) ENGINE=InnoDb;
+
+CREATE TABLE categorie
+(
+    code_cat CHAR(3) PRIMARY KEY NOT NULL,
+    nom_categ VARCHAR(50),
+    nb_point INT
+) ENGINE=InnoDb;
+
+CREATE TABLE trophee
+(
+    num_trophee INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    date_prise DATETIME NOT NULL,
+    code_cat CHAR(3),
+    num_preneur INT,
+    num_resserre INT,
+    FOREIGN KEY(code_cat) REFERENCES categorie(code_cat),
+    FOREIGN KEY(num_preneur) REFERENCES habitant(num_hab),
+    FOREIGN KEY(num_resserre) REFERENCES resserre(num_resserre)
+) ENGINE=InnoDb;
+
+CREATE TABLE potion
+(
+    num_potion INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    lib_potion VARCHAR(40),
+    formule VARCHAR(30),
+    constituant_principal VARCHAR(30)
+) ENGINE=InnoDb;
+
+CREATE TABLE fabriquer
+(
+    num_potion INT,
+    num_hab INT,
+    FOREIGN KEY(num_potion) REFERENCES potion(num_potion),
+    FOREIGN KEY(num_hab) REFERENCES habitant(num_hab)
+) ENGINE=InnoDb;
+
+ALTER TABLE fabriquer
+ADD CONSTRAINT PK_fabriquer PRIMARY KEY (num_potion,num_hab);
+
+CREATE TABLE absorber
+(
+    num_potion INT,
+    FOREIGN KEY(num_potion) REFERENCES potion(num_potion),
+    date_a DATETIME,
+    num_hab INT,
+    FOREIGN KEY(num_hab) REFERENCES habitant(num_hab),
+    quantite INT NOT NULL
+) ENGINE=InnoDb;
+
+ALTER TABLE absorber
+ADD CONSTRAINT PK_absorber PRIMARY KEY (num_potion, date_a, num_hab);
