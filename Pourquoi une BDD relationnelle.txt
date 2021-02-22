@@ -1,0 +1,11 @@
+Selon moi, les differentes raison qui ont poussé l'équipe à opté pour une base de données relationnelle sont : 
+
+ * Le fait que la base de données relationnelle ne concerne que les données et non une structure. Cela peut améliorer les performances du modèle.
+
+ * La facilité d'utilisation du modèle relationnel qui est très intuitif à utiliser car composé de tableaux organisés de lignes et de colonnes.
+
+ * La capacité d'interrogation qui permet à un langage de requête de haut niveau comme SQL d'éviter une navigation complexe dans la base de données.
+
+ * Une indépendance des données dont la structure d'une base de données peut être modifiée sans avoir à changer d'application.
+
+ * Le fait qu'une base de données relationnelle garantit qu'aucun attribut n'est répété. Elle est unique.
