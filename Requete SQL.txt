@@ -60,6 +60,7 @@ ON absorber.num_hab = habitant.num_hab
 INNER JOIN fabriquer
 ON absorber.num_potion = fabriquer.num_potion
 WHERE fabriquer.num_hab LIKE 3
+GROUP BY habitant.nom
 
 13/SELECT DISTINCT habitant.nom, fabriquer.*, potion.lib_potion
 FROM absorber
