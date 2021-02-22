@@ -70,7 +70,7 @@ INNER JOIN potion
 ON absorber.num_potion = potion.num_potion
 INNER JOIN fabriquer
 ON absorber.num_potion = fabriquer.num_potion
-WHERE fabriquer.num_hab LIKE 3
+WHERE habitant.nom LIKE "Amnésix"
 
 14/SELECT nom
 FROM habitant
