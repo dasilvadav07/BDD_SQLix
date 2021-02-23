@@ -174,5 +174,4 @@ FROM trophee
 INNER JOIN habitant
 ON trophee.num_preneur = habitant.num_hab
 GROUP BY habitant.nom
-HAVING nb_trophee > 1
-ORDER BY nb_trophee DESC
+HAVING nb_trophee > (SELECT COUNT(num_trophee) AS nb_trophee FROM trophee INNER JOIN habitant ON trophee.num_preneur = habitant.num_hab WHERE habitant.nom = "obelix")
